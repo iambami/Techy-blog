@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+
+ 
+
+    <h1>{{ object.title }}</h1>
+    <small>By: 
+        {{ object.author.first_name}} 
+        {{ object.author.last_name}} - 
+        {{ object.post_date }} 
+    
+        
+
+        {% if user.is_authenticated %}
+            {% if user.id == object.author.id %}
+            -<a href="{% url 'update_article' article.pk %}">(Edit)</a>
+            
+            <a href="{% url 'delete_article' article.pk %}">(Delete)</a>
+            {% endif %}
+        {% endif %}
+    </small><br/>
+    <br>
+    <br/>
+
+    <p class="card-img"></p><img src ="{{art.artPix.url}}" width="200" height="200" ></p>
+    
+    <br/><br/>
+    {{ article.body|safe }}
+
+    <br/><br/>
+    <a href="{% url 'home' %}"class="btn btn-secondary">Back</a>
+    
+    <br/><br/> 
+    <hr>
+    <br/>
+    <form action="{% url 'like_article' article.pk %}"
+      method="POST">
+        {% csrf_token %}
+
+    {% if user.is_authenticated %}
+        {% if liked %}
+            <button type="submit", name="article_id", value="{{ article.id}}",
+            class="btn btn-danger btn-sm">Unlike</button>
+        {% else %}
+             <button type="submit", name="article_id", value="{{ article.id}}",
+             class="btn btn-primary btn-sm">Like</button> 
+        {% endif %}
+    {% else %}
+         <small>
+            <a href="{% url 'login' %}">Login</a>
+             to like
+         </small>
+    {% endif %}
+
+         - {{ total_likes }} Likes
+    </form>
+
+ {% endblock %}

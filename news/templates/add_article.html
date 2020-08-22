@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+
+   
+{% if user.is_authenticated %}
+<h1>Write Article</h1>
+<br/><br/>
+    <div class="form-group">
+<form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+            <button type = "post" class = "btn btn-primary">Post</button>
+    </div>
+<script>
+    var name = "{{ user.id }}";
+    document.getElementById("oluwabamikemi").value = name;
+
+</script> 
+
+{% else %}
+
+Login first
+
+{% endif %}
+
+
+
+ {% endblock %}

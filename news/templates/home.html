@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+
+   
+
+<h1>Articles</h1>
+<u1>
+ {% for article in object_list %}
+    <li><a href = "{% url 'article-detail' article.pk %}">{{ article.title }}</a> -
+   <a href="{% url 'category' article.category|slugify %}">{{ article.category }}</a> 
+    {{ article.author.first_name}}
+    {{ article.author.last_name}} - 
+    {{ article.post_date }} <small>
+
+   {% if user.is_authenticated %}
+      {% if user.id == article.author.id %}
+         - <a href="{% url 'update_article' article.pk %}">(Edit)</a>
+
+         <a href="{% url 'delete_article' article.pk %}">(Delete)</a>
+      {% endif %}
+   {% endif %}
+   </small> <br/>
+   
+    {{article.body|slice:":200"|safe }}</li>
+ {% endfor%}
+ </u1>
+
+
+ {% endblock %} 

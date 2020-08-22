@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+
+   
+{% if user.is_authenticated %}
+    {% if user.id == article.author.id %}
+        <h1>Edit Article</h1>
+        <br/><br/>
+        <div class="form-group">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.media }}
+                {{ form.as_p }}
+                <button type = "Edit" class = "btn btn-primary">Edit</button>
+        </div>
+    {% else %}
+        You are not allowed here!
+    {% endif %}
+{% else %}
+
+Login first
+
+{% endif %}
+
+
+ {% endblock %}
